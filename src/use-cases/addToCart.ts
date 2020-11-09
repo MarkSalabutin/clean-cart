@@ -1,6 +1,7 @@
 import { Product } from "../domain/Product";
 import Cart from "../domain/Cart";
 import { EffectHandler } from "./EffectHandler";
+import { AddToCartUseCase, AddToCartUseCaseFactory } from "./cart";
 
 export enum AddToCartEffectType {
   ABORT_ADDING = "ABORT_ADDING",
@@ -21,7 +22,7 @@ export interface AddToCartRepository {
   getProducts(): Product[];
 }
 
-export default class AddToCart {
+export default class AddToCart implements AddToCartUseCase {
   private productsToAdd: Product[] = [];
   private awaitingDuplicationResolvance: boolean = false;
 

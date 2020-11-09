@@ -1,32 +1,18 @@
-import AddToCart, { AddToCartEffectHandler, AddToCartEffect, AddToCartRepository } from "../addToCart";
+import AddToCart, { AddToCartEffectHandler } from "../addToCart";
 import { Product } from "../../domain/Product";
+import { MockAddToCartRepository, MockAddToCartEffectHandler } from "../testDoubles/addToCart";
 
-class MockRepository implements AddToCartRepository {
-  products: Product[] = [];
-
-  addProducts(products: Product[]) {
-    this.products = this.products.concat(products);
-  }
-
-  getProducts() {
-    return this.products;
-  }
-}
-
-class MockEffectHandler implements AddToCartEffectHandler {
-  handle(effect: AddToCartEffect): void {}
-}
 
 describe("addToCart use case", () => {
   let effectHandler: AddToCartEffectHandler;
   let effectHandlerSpy: jest.SpyInstance;
   let addToCart: AddToCart;
-  let repository: MockRepository;
+  let repository: MockAddToCartRepository;
 
   beforeEach(() => {
-    effectHandler = new MockEffectHandler();
+    effectHandler = new MockAddToCartEffectHandler();
     effectHandlerSpy = jest.spyOn(effectHandler, "handle");
-    repository = new MockRepository();
+    repository = new MockAddToCartRepository();
     addToCart = new AddToCart(effectHandler, repository);
   });
 
