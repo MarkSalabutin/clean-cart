@@ -1,4 +1,4 @@
-import { AddToCartEffect, AddToCartEffectHandler, AddToCartEffectType as EffectType } from "../../../use-cases/addToCart";
+import { AddToCartEffect, AddToCartEffectHandler, AddToCartEffectType as EffectType } from "../../../useCases/addToCart";
 import { Store } from "../types";
 import { productAdded } from "./actions";
 

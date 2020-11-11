@@ -1,5 +1,5 @@
 import { Product } from "../../../domain/Product";
-import { AddToCartRepository } from "../../../use-cases/addToCart";
+import { AddToCartRepository } from "../../../useCases/addToCart";
 
 export default class AddToCartInMemoryRepository
   implements AddToCartRepository {

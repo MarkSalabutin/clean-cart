@@ -1,4 +1,4 @@
-import { ListProductsEffectType as EffectType } from "../../../../use-cases/listProducts";
+import { ListProductsEffectType as EffectType } from "../../../../useCases/listProducts";
 import { listChanged } from "../actions";
 import ReduxListProductsEffectHandler from "../ReduxListProductsEffectHandler";
 

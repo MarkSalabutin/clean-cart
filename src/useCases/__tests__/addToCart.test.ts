@@ -27,7 +27,8 @@ describe("addToCart use case", () => {
     effectHandler = new MockEffectHandler();
     effectHandlerSpy = jest.spyOn(effectHandler, "handle");
     repository = new MockRepository();
-    addToCart = new AddToCart(effectHandler, repository);
+    addToCart = new AddToCart(repository);
+    addToCart.addEffectHandler(effectHandler);
   });
 
   it("creates", () => {

@@ -1,4 +1,4 @@
-import { ListProductsEffect, ListProductsEffectHandler, ListProductsEffectType as EffectType } from "../../../use-cases/listProducts";
+import { ListProductsEffect, ListProductsEffectHandler, ListProductsEffectType as EffectType } from "../../../useCases/listProducts";
 import { Store } from "../types";
 import { listChanged } from "./actions";
 
