@@ -1,6 +1,7 @@
 import { Product } from "../domain/Product";
 import Cart from "../domain/Cart";
 import { EffectHandler } from "./EffectHandler";
+import UseCase from './useCase';
 
 export enum AddToCartEffectType {
   ABORT_ADDING = "ABORT_ADDING",
@@ -21,11 +22,13 @@ export interface AddToCartRepository {
   getProducts(): Product[];
 }
 
-export default class AddToCart {
+export default class AddToCart extends UseCase<AddToCartEffect> {
   private productsToAdd: Product[] = [];
   private awaitingDuplicationResolvance: boolean = false;
 
-  constructor(private readonly effectHandler: AddToCartEffectHandler, private readonly repository: AddToCartRepository) {}
+  constructor(private readonly repository: AddToCartRepository) {
+    super();
+  }
 
   public confirmAddDuplicates() {
     if (this.awaitingDuplicationResolvance) {
@@ -36,7 +39,7 @@ export default class AddToCart {
 
   public abortAddDuplicates() {
     if (this.awaitingDuplicationResolvance) {
-      this.effectHandler.handle({
+      this.handleEffect({
         type: AddToCartEffectType.ABORT_ADDING,
       });
       this.awaitingDuplicationResolvance = false;
@@ -50,7 +53,7 @@ export default class AddToCart {
 
     this.productsToAdd = products;
     if (this.productListIsEmpty(products)) {
-      this.effectHandler.handle({ type: AddToCartEffectType.NOTIFY_NOTHING_TO_ADD });
+      this.handleEffect({ type: AddToCartEffectType.NOTIFY_NOTHING_TO_ADD });
     } else {
       this.addNonEmptyProductList();
     }
@@ -86,11 +89,11 @@ export default class AddToCart {
   }
 
   private notifyAddedToCart() {
-    this.effectHandler.handle({ type: AddToCartEffectType.NOTIFY_ADDED_TO_CART });
+    this.handleEffect({ type: AddToCartEffectType.NOTIFY_ADDED_TO_CART });
   }
 
   private notifyProductsDuplication(duplicates: Product[]) {
-    this.effectHandler.handle({
+    this.handleEffect({
       type: AddToCartEffectType.NOTIFY_PRODUCT_DUPLICATION,
       payload: { products: duplicates },
     });
