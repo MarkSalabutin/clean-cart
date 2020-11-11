@@ -1,4 +1,4 @@
-import { AddToCartEffectType as EffectType } from "../../../../use-cases/addToCart";
+import { AddToCartEffectType as EffectType } from "../../../../useCases/addToCart";
 import { productAdded } from "../actions";
 import ReduxAddToCartEffectHandler from "../ReduxAddToCartEffectHandler";
 
