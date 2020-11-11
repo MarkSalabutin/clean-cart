@@ -28,7 +28,8 @@ describe("list products use case", () => {
     effectHandler = new MockEffectHandler();
     effectHandlerSpy = jest.spyOn(effectHandler, "handle");
     repository = new MockRepository();
-    listProducts = new ListProducts(effectHandler, repository);
+    listProducts = new ListProducts(repository);
+    listProducts.addEffectHandler(effectHandler);
   });
 
   it("creates", () => {
