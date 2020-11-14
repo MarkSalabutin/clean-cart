@@ -18,7 +18,7 @@ export interface ListProductsRepository {
   getProducts(): Product[];
 }
 
-export interface ListProductsFlow extends UseCase<ListProductsEffect> {
+export interface ListProductsFlow {
   execute(): void;
 }
 

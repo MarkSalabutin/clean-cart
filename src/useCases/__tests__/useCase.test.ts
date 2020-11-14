@@ -95,4 +95,15 @@ describe('UseCase', () => {
     expect(effectHandlerMock1.handle).not.toHaveBeenCalled();
     expect(effectHandlerMock2.handle).not.toHaveBeenCalled();
   });
+
+  it('does not remove anything if given a reference to unregistered handler', () => {
+    const message = 'buffalo'
+    const effectHandler = createEffectHandler();
+
+    useCase.addEffectHandler(effectHandler);
+    useCase.removeEffectHandler(createEffectHandler());
+    useCase.dispatch(message);
+
+    expect(effectHandler.handle).toHaveBeenCalledWith(message);
+  });
 });

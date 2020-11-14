@@ -22,10 +22,10 @@ export interface AddToCartRepository {
   getProducts(): Product[];
 }
 
-export interface AddToCartFlow extends UseCase<AddToCartEffect> {
+export interface AddToCartFlow {
+  addProducts(products: Product[]): void;
   confirmAddDuplicates(): void;
   abortAddDuplicates(): void;
-  addProducts(products: Product[]): void;
 }
 
 export default class AddToCartUseCase extends UseCase<AddToCartEffect> implements AddToCartFlow {
