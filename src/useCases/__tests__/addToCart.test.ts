@@ -1,4 +1,4 @@
-import AddToCart, { AddToCartEffectHandler, AddToCartEffect, AddToCartRepository } from "../addToCart";
+import AddToCartUseCase, { AddToCartEffectHandler, AddToCartEffect, AddToCartRepository } from "../addToCart";
 import { Product } from "../../domain/Product";
 
 class MockRepository implements AddToCartRepository {
@@ -20,14 +20,14 @@ class MockEffectHandler implements AddToCartEffectHandler {
 describe("addToCart use case", () => {
   let effectHandler: AddToCartEffectHandler;
   let effectHandlerSpy: jest.SpyInstance;
-  let addToCart: AddToCart;
+  let addToCart: AddToCartUseCase;
   let repository: MockRepository;
 
   beforeEach(() => {
     effectHandler = new MockEffectHandler();
     effectHandlerSpy = jest.spyOn(effectHandler, "handle");
     repository = new MockRepository();
-    addToCart = new AddToCart(repository);
+    addToCart = new AddToCartUseCase(repository);
     addToCart.addEffectHandler(effectHandler);
   });
 

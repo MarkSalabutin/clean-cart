@@ -1,4 +1,4 @@
-import ListProducts, {
+import ListProductsUseCase, {
   ListProductsRepository,
   ListProductsEffectHandler,
   ListProductsEffect as Effect,
@@ -20,7 +20,7 @@ class MockEffectHandler implements ListProductsEffectHandler {
 
 describe("list products use case", () => {
   let effectHandler: ListProductsEffectHandler;
-  let listProducts: ListProducts;
+  let listProducts: ListProductsUseCase;
   let repository: MockRepository;
   let effectHandlerSpy: jest.SpyInstance<void, [effect: Effect]>;
 
@@ -28,7 +28,7 @@ describe("list products use case", () => {
     effectHandler = new MockEffectHandler();
     effectHandlerSpy = jest.spyOn(effectHandler, "handle");
     repository = new MockRepository();
-    listProducts = new ListProducts(repository);
+    listProducts = new ListProductsUseCase(repository);
     listProducts.addEffectHandler(effectHandler);
   });
 

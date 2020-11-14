@@ -1,10 +1,10 @@
-import { Product } from "../domain/Product";
-import { EffectHandler } from "./EffectHandler";
+import { Product } from '../domain/Product';
+import { EffectHandler } from './EffectHandler';
 import UseCase from './useCase';
 
 export enum ListProductsEffectType {
-  LIST_PRODUCTS = "LIST_PRODUCTS",
-  NOTIFY_LIST_PRODUCTS_FAILED = "NOTIFY_LIST_PRODUCTS_FAILED",
+  LIST_PRODUCTS = 'LIST_PRODUCTS',
+  NOTIFY_LIST_PRODUCTS_FAILED = 'NOTIFY_LIST_PRODUCTS_FAILED',
 }
 
 export interface ListProductsEffect {
@@ -18,7 +18,11 @@ export interface ListProductsRepository {
   getProducts(): Product[];
 }
 
-export default class ListProducts extends UseCase<ListProductsEffect> {
+export interface ListProductsFlow extends UseCase<ListProductsEffect> {
+  execute(): void;
+}
+
+export default class ListProductsUseCase extends UseCase<ListProductsEffect> implements ListProductsFlow {
   constructor(private readonly repository: ListProductsRepository) {
     super();
   }

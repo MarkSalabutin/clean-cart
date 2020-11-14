@@ -1,13 +1,13 @@
-import { Product } from "../domain/Product";
-import Cart from "../domain/Cart";
-import { EffectHandler } from "./EffectHandler";
+import { Product } from '../domain/Product';
+import Cart from '../domain/Cart';
+import { EffectHandler } from './EffectHandler';
 import UseCase from './useCase';
 
 export enum AddToCartEffectType {
-  ABORT_ADDING = "ABORT_ADDING",
-  NOTIFY_NOTHING_TO_ADD = "NOTIFY_NOTHING_TO_ADD",
-  NOTIFY_ADDED_TO_CART = "NOTIFY_ADDED_TO_CART",
-  NOTIFY_PRODUCT_DUPLICATION = "NOTIFY_PRODUCT_DUPLICATION",
+  ABORT_ADDING = 'ABORT_ADDING',
+  NOTIFY_NOTHING_TO_ADD = 'NOTIFY_NOTHING_TO_ADD',
+  NOTIFY_ADDED_TO_CART = 'NOTIFY_ADDED_TO_CART',
+  NOTIFY_PRODUCT_DUPLICATION = 'NOTIFY_PRODUCT_DUPLICATION',
 }
 
 export interface AddToCartEffect {
@@ -22,7 +22,13 @@ export interface AddToCartRepository {
   getProducts(): Product[];
 }
 
-export default class AddToCart extends UseCase<AddToCartEffect> {
+export interface AddToCartFlow extends UseCase<AddToCartEffect> {
+  confirmAddDuplicates(): void;
+  abortAddDuplicates(): void;
+  addProducts(products: Product[]): void;
+}
+
+export default class AddToCartUseCase extends UseCase<AddToCartEffect> implements AddToCartFlow {
   private productsToAdd: Product[] = [];
   private awaitingDuplicationResolvance: boolean = false;
 

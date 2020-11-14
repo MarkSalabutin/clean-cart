@@ -1,7 +1,7 @@
-import AddToCart from "../useCases/addToCart";
-import ListProducts from "../useCases/listProducts";
+import AddToCartUseCase from "../useCases/addToCart";
+import ListProductsUseCase from "../useCases/listProducts";
 
 export interface UseCaseContainer {
-  listProducts: ListProducts;
-  addToCart: AddToCart;
+  listProducts: ListProductsUseCase;
+  addToCart: AddToCartUseCase;
 }
