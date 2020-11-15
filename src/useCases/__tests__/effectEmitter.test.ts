@@ -9,22 +9,22 @@ class ConcreteEffectEmitter extends EffectEmitter<string> {
 const createEffectHandler = (): EffectHandler<string> => ({ handle: jest.fn() });
 
 describe('EffectEmitter', () => {
-  let useCase: ConcreteEffectEmitter;
+  let emitter: ConcreteEffectEmitter;
 
   beforeEach(() => {
-    useCase = new ConcreteEffectEmitter();
+    emitter = new ConcreteEffectEmitter();
   });
 
   it('creates', () => {
-    expect(useCase).toBeDefined();
+    expect(emitter).toBeDefined();
   });
 
   it('allows to register an effect handler', () => {
     const effectHandlerMock = createEffectHandler();
 
     const message = 'buffalo';
-    useCase.addEffectHandler(effectHandlerMock);
-    useCase.dispatch(message);
+    emitter.addEffectHandler(effectHandlerMock);
+    emitter.dispatch(message);
 
     expect(effectHandlerMock.handle).toHaveBeenCalledWith(message);
   });
@@ -40,19 +40,19 @@ describe('EffectEmitter', () => {
     });
 
     it('allows to register multiple effect handlers', () => {
-      useCase.addEffectHandler(effectHandlerMock1);
-      useCase.addEffectHandler(effectHandlerMock2);
-      useCase.dispatch(message);
+      emitter.addEffectHandler(effectHandlerMock1);
+      emitter.addEffectHandler(effectHandlerMock2);
+      emitter.dispatch(message);
 
       expect(effectHandlerMock1.handle).toHaveBeenCalledWith(message);
       expect(effectHandlerMock2.handle).toHaveBeenCalledWith(message);
     });
 
     it('still calls other handlers if one has been removed', () => {
-      useCase.addEffectHandler(effectHandlerMock1);
-      useCase.addEffectHandler(effectHandlerMock2);
-      useCase.removeEffectHandler(effectHandlerMock1);
-      useCase.dispatch(message);
+      emitter.addEffectHandler(effectHandlerMock1);
+      emitter.addEffectHandler(effectHandlerMock2);
+      emitter.removeEffectHandler(effectHandlerMock1);
+      emitter.dispatch(message);
 
       expect(effectHandlerMock1.handle).not.toHaveBeenCalled();
       expect(effectHandlerMock2.handle).toHaveBeenCalledWith(message);
@@ -62,9 +62,9 @@ describe('EffectEmitter', () => {
   it('allows to unregister effect handler', () => {
     const effectHandler = createEffectHandler();
 
-    useCase.addEffectHandler(effectHandler);
-    useCase.removeEffectHandler(effectHandler);
-    useCase.dispatch('buffalo');
+    emitter.addEffectHandler(effectHandler);
+    emitter.removeEffectHandler(effectHandler);
+    emitter.dispatch('buffalo');
 
     expect(effectHandler.handle).not.toHaveBeenCalled();
   });
@@ -73,9 +73,9 @@ describe('EffectEmitter', () => {
     const message = 'buffalo';
     const effectHandler = createEffectHandler();
 
-    useCase.addEffectHandler(effectHandler);
-    useCase.addEffectHandler(effectHandler);
-    useCase.dispatch(message);
+    emitter.addEffectHandler(effectHandler);
+    emitter.addEffectHandler(effectHandler);
+    emitter.dispatch(message);
 
     expect(effectHandler.handle).toHaveBeenCalledTimes(2);
     expect(effectHandler.handle).toHaveBeenNthCalledWith(1, message);
@@ -86,10 +86,10 @@ describe('EffectEmitter', () => {
     const effectHandlerMock1 = createEffectHandler();
     const effectHandlerMock2 = effectHandlerMock1;
 
-    useCase.addEffectHandler(effectHandlerMock1);
-    useCase.addEffectHandler(effectHandlerMock2);
-    useCase.removeEffectHandler(effectHandlerMock1);
-    useCase.dispatch('buffalo');
+    emitter.addEffectHandler(effectHandlerMock1);
+    emitter.addEffectHandler(effectHandlerMock2);
+    emitter.removeEffectHandler(effectHandlerMock1);
+    emitter.dispatch('buffalo');
 
     expect(effectHandlerMock1.handle).not.toHaveBeenCalled();
     expect(effectHandlerMock2.handle).not.toHaveBeenCalled();
@@ -99,9 +99,9 @@ describe('EffectEmitter', () => {
     const message = 'buffalo'
     const effectHandler = createEffectHandler();
 
-    useCase.addEffectHandler(effectHandler);
-    useCase.removeEffectHandler(createEffectHandler());
-    useCase.dispatch(message);
+    emitter.addEffectHandler(effectHandler);
+    emitter.removeEffectHandler(createEffectHandler());
+    emitter.dispatch(message);
 
     expect(effectHandler.handle).toHaveBeenCalledWith(message);
   });
