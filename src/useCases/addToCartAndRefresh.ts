@@ -1,6 +1,6 @@
 import { Product } from '../domain/Product';
 import AddToCartUseCase, { AddToCartEffect, AddToCartEffectType, AddToCartFlow } from './addToCart';
-import { EffectHandler } from './EffectHandler';
+import { EffectHandler } from './EffectEmitter';
 import { ListProductsFlow } from './listProducts';
 
 class AddToCartEffectHandler implements EffectHandler<AddToCartEffect> {

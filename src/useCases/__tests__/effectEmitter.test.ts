@@ -1,7 +1,6 @@
-import { EffectHandler } from '../EffectHandler';
-import UseCase from '../useCase';
+import { EffectEmitter, EffectHandler } from '../EffectEmitter';
 
-class AUseCase extends UseCase<string> {
+class ConcreteEffectEmitter extends EffectEmitter<string> {
   public dispatch(effect: string) {
     this.handleEffect(effect);
   }
@@ -9,11 +8,11 @@ class AUseCase extends UseCase<string> {
 
 const createEffectHandler = (): EffectHandler<string> => ({ handle: jest.fn() });
 
-describe('UseCase', () => {
-  let useCase: AUseCase;
+describe('EffectEmitter', () => {
+  let useCase: ConcreteEffectEmitter;
 
   beforeEach(() => {
-    useCase = new AUseCase();
+    useCase = new ConcreteEffectEmitter();
   });
 
   it('creates', () => {

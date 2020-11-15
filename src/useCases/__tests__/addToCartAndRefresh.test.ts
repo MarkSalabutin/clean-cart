@@ -2,7 +2,7 @@ import { Product } from '../../domain/Product';
 import AddToCartAndRefreshUseCase from '../addToCartAndRefresh';
 import AddToCartUseCase, { AddToCartEffectType, AddToCartRepository } from '../addToCart';
 import { ListProductsEffect, ListProductsFlow } from '../listProducts';
-import UseCase from '../useCase';
+import { EffectEmitter } from '../EffectEmitter';
 
 class MockAddToCartRepository implements AddToCartRepository {
   addProducts(products: Product[]): void {}
@@ -23,7 +23,7 @@ class MockAddToCart extends AddToCartUseCase {
   }
 }
 
-class MockListProducts extends UseCase<ListProductsEffect> implements ListProductsFlow {
+class MockListProducts extends EffectEmitter<ListProductsEffect> implements ListProductsFlow {
   execute(): void {}
 }
 
