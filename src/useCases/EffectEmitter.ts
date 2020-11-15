@@ -1,6 +1,8 @@
-import { EffectHandler } from './EffectHandler';
+export interface EffectHandler<T> {
+  handle(effect: T): void;
+}
 
-export default abstract class UseCase<T> {
+export abstract class EffectEmitter<T> {
   private handlers: EffectHandler<T>[] = [];
 
   protected handleEffect(effect: T) {

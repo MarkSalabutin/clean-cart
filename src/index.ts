@@ -7,6 +7,7 @@ import ReduxListProductsEffectHandler from './view/store/cart/ReduxListProductsE
 import { UseCaseContainer } from './view/UseCaseContainer';
 import ReduxAddToCartEffectHandler from './view/store/cart/ReduxAddToCartEffectHandler';
 import { render } from './view';
+import AddToCartAndRefreshUseCase from './useCases/addToCartAndRefresh';
 
 const store = createStore();
 
@@ -19,9 +20,12 @@ addToCartUseCase.addEffectHandler(new ReduxAddToCartEffectHandler(store.dispatch
 const listProductsUseCase = new ListProductsUseCase(listProductsRepository);
 listProductsUseCase.addEffectHandler(new ReduxListProductsEffectHandler(store.dispatch));
 
+const addToCartAndRefreshUseCase = new AddToCartAndRefreshUseCase(addToCartUseCase, listProductsUseCase);
+
 const useCases: UseCaseContainer = {
   listProducts: listProductsUseCase,
   addToCart: addToCartUseCase,
+  addToCartAndRefresh: addToCartAndRefreshUseCase,
 };
 
 render(useCases, store);

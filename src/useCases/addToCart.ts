@@ -1,7 +1,6 @@
 import { Product } from '../domain/Product';
 import Cart from '../domain/Cart';
-import { EffectHandler } from './EffectHandler';
-import UseCase from './useCase';
+import { EffectEmitter, EffectHandler } from './EffectEmitter';
 
 export enum AddToCartEffectType {
   ABORT_ADDING = 'ABORT_ADDING',
@@ -22,13 +21,13 @@ export interface AddToCartRepository {
   getProducts(): Product[];
 }
 
-export interface AddToCartFlow extends UseCase<AddToCartEffect> {
+export interface AddToCartFlow {
+  addProducts(products: Product[]): void;
   confirmAddDuplicates(): void;
   abortAddDuplicates(): void;
-  addProducts(products: Product[]): void;
 }
 
-export default class AddToCartUseCase extends UseCase<AddToCartEffect> implements AddToCartFlow {
+export default class AddToCartUseCase extends EffectEmitter<AddToCartEffect> implements AddToCartFlow {
   private productsToAdd: Product[] = [];
   private awaitingDuplicationResolvance: boolean = false;
 

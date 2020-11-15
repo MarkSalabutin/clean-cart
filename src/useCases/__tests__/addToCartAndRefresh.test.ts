@@ -1,10 +1,17 @@
 import { Product } from '../../domain/Product';
-import AddAndRefresh from '../addAndRefresh';
-import { AddToCartEffect, AddToCartEffectType, AddToCartFlow } from '../addToCart';
+import AddToCartAndRefreshUseCase from '../addToCartAndRefresh';
+import AddToCartUseCase, { AddToCartEffectType, AddToCartRepository } from '../addToCart';
 import { ListProductsEffect, ListProductsFlow } from '../listProducts';
-import UseCase from '../useCase';
+import { EffectEmitter } from '../EffectEmitter';
 
-class MockAddToCart extends UseCase<AddToCartEffect> implements AddToCartFlow {
+class MockAddToCartRepository implements AddToCartRepository {
+  addProducts(products: Product[]): void {}
+  getProducts(): Product[] {
+    return [];
+  }
+}
+
+class MockAddToCart extends AddToCartUseCase {
   confirmAddDuplicates(): void {}
   abortAddDuplicates(): void {}
   addProducts(products: Product[]): void {
@@ -16,19 +23,19 @@ class MockAddToCart extends UseCase<AddToCartEffect> implements AddToCartFlow {
   }
 }
 
-class MockListProducts extends UseCase<ListProductsEffect> implements ListProductsFlow {
+class MockListProducts extends EffectEmitter<ListProductsEffect> implements ListProductsFlow {
   execute(): void {}
 }
 
-describe('AddAndRefresh', () => {
-  let addAndRefresh: AddAndRefresh;
+describe('AddToCartAndRefresh', () => {
+  let addAndRefresh: AddToCartAndRefreshUseCase;
   let addToCart: MockAddToCart;
   let listProducts: MockListProducts;
 
   beforeEach(() => {
-    addToCart = new MockAddToCart();
+    addToCart = new MockAddToCart(new MockAddToCartRepository());
     listProducts = new MockListProducts();
-    addAndRefresh = new AddAndRefresh(addToCart, listProducts);
+    addAndRefresh = new AddToCartAndRefreshUseCase(addToCart, listProducts);
   });
 
   it('creates', () => {

@@ -1,6 +1,5 @@
 import { Product } from '../domain/Product';
-import { EffectHandler } from './EffectHandler';
-import UseCase from './useCase';
+import { EffectEmitter, EffectHandler } from './EffectEmitter';
 
 export enum ListProductsEffectType {
   LIST_PRODUCTS = 'LIST_PRODUCTS',
@@ -18,11 +17,11 @@ export interface ListProductsRepository {
   getProducts(): Product[];
 }
 
-export interface ListProductsFlow extends UseCase<ListProductsEffect> {
+export interface ListProductsFlow {
   execute(): void;
 }
 
-export default class ListProductsUseCase extends UseCase<ListProductsEffect> implements ListProductsFlow {
+export default class ListProductsUseCase extends EffectEmitter<ListProductsEffect> implements ListProductsFlow {
   constructor(private readonly repository: ListProductsRepository) {
     super();
   }
