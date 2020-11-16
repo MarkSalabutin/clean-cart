@@ -8,9 +8,11 @@ import { UseCaseContainer } from './view/UseCaseContainer';
 import ReduxAddToCartEffectHandler from './view/store/cart/ReduxAddToCartEffectHandler';
 import { render } from './view';
 import AddToCartAndRefreshUseCase from './useCases/addToCartAndRefresh';
+import InMemoryCartService from './services/inMemoryCartService';
 
 const store = createStore();
 
+const cartService = new InMemoryCartService();
 const addToCartRepository = new AddToCartInMemoryRepository();
 const listProductsRepository = new ListProductsInMemoryRepository();
 
