@@ -1,38 +1,47 @@
-import { Product } from "../../../../domain/Product";
-import AddToCartInMemoryRepository from "../AddToCartInMemoryRepository";
+import { Product } from '../../../../domain/Product';
+import { CartService } from '../../../../services/cartService';
+import InMemoryCartService from '../../../../services/inMemoryCartService';
+import AddToCartInMemoryRepository from '../AddToCartInMemoryRepository';
 
-describe("AddToCartInMemoryRepository", () => {
+describe('AddToCartInMemoryRepository', () => {
   let addToCartRepository: AddToCartInMemoryRepository;
+  let cartService: CartService;
 
   beforeEach(() => {
-    addToCartRepository = new AddToCartInMemoryRepository();
+    cartService = new InMemoryCartService();
+    addToCartRepository = new AddToCartInMemoryRepository(cartService);
   });
-  it("creates", () => {
+
+  it('creates', () => {
     expect(addToCartRepository).toBeDefined();
   });
 
-  it("should return empty product list", () => {
-    expect(addToCartRepository.getProducts()).toEqual([]);
+  it('delegates getProducts call to the given service', () => {
+    const spy = jest.spyOn(cartService, 'getProducts');
+
+    addToCartRepository.getProducts();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it("should add product", () => {
-    const product: Product = { id: "1" };
-    addToCartRepository.addProducts([product]);
-    expect(addToCartRepository.getProducts()).toEqual([product]);
+  it('returns products that were returned by the given service', () => {
+    const products: Product[] = [
+      { id: '1' }, { id: '2' }, { id: '3' },
+    ];
+
+    jest.spyOn(cartService, 'getProducts').mockReturnValue(products);
+
+    const output = addToCartRepository.getProducts();
+
+    expect(output).toEqual(products);
   });
 
-  it("should add multiple products in a row", () => {
-    const product1: Product = { id: "1" };
-    const product2: Product = { id: "2" };
-    addToCartRepository.addProducts([product1]);
-    addToCartRepository.addProducts([product2]);
-    expect(addToCartRepository.getProducts()).toEqual([product1, product2]);
-  });
+  it('delegates addProducts call to the given service', () => {
+    const spy = jest.spyOn(cartService, 'addProducts');
+    const products: Product[] = [
+      { id: '1' }, { id: '2' }, { id: '3' },
+    ];
 
-  it("should be able to add same products multiple times", () => {
-    const product1: Product = { id: "1" };
-    addToCartRepository.addProducts([product1]);
-    addToCartRepository.addProducts([product1]);
-    expect(addToCartRepository.getProducts()).toEqual([product1, product1]);
+    addToCartRepository.addProducts(products);
+    expect(spy).toHaveBeenCalledWith(products);
   });
 });

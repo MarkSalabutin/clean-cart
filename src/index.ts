@@ -13,8 +13,8 @@ import InMemoryCartService from './services/inMemoryCartService';
 const store = createStore();
 
 const cartService = new InMemoryCartService();
-const addToCartRepository = new AddToCartInMemoryRepository();
-const listProductsRepository = new ListProductsInMemoryRepository();
+const addToCartRepository = new AddToCartInMemoryRepository(cartService);
+const listProductsRepository = new ListProductsInMemoryRepository(cartService);
 
 const addToCartUseCase = new AddToCartUseCase(addToCartRepository);
 addToCartUseCase.addEffectHandler(new ReduxAddToCartEffectHandler(store.dispatch));

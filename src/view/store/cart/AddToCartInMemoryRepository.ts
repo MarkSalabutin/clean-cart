@@ -1,15 +1,15 @@
 import { Product } from "../../../domain/Product";
+import { CartService } from '../../../services/cartService';
 import { AddToCartRepository } from "../../../useCases/addToCart";
 
-export default class AddToCartInMemoryRepository
-  implements AddToCartRepository {
-  private products: Product[] = [];
+export default class AddToCartInMemoryRepository implements AddToCartRepository {
+  constructor(private readonly cartService: CartService) {}
 
   addProducts(products: Product[]): void {
-    this.products = this.products.concat(products);
+    this.cartService.addProducts(products);
   }
 
   getProducts(): Product[] {
-    return this.products;
+    return this.cartService.getProducts();
   }
 }
