@@ -1,18 +1,20 @@
 import AddToCartUseCase from './useCases/addToCart';
 import ListProductsUseCase from './useCases/listProducts';
 import { createStore } from './view/store';
-import AddToCartInMemoryRepository from './view/store/cart/AddToCartInMemoryRepository';
-import ListProductsInMemoryRepository from './view/store/cart/ListProductsInMemoryRepository';
+import CartServiceToAddToCartRepository from './view/store/cart/CartServiceToAddToCartRepository';
+import CartServiceToListProductsRepository from './view/store/cart/CartServiceToListProductsRepository';
 import ReduxListProductsEffectHandler from './view/store/cart/ReduxListProductsEffectHandler';
 import { UseCaseContainer } from './view/UseCaseContainer';
 import ReduxAddToCartEffectHandler from './view/store/cart/ReduxAddToCartEffectHandler';
 import { render } from './view';
 import AddToCartAndRefreshUseCase from './useCases/addToCartAndRefresh';
+import InMemoryCartService from './services/inMemoryCartService';
 
 const store = createStore();
 
-const addToCartRepository = new AddToCartInMemoryRepository();
-const listProductsRepository = new ListProductsInMemoryRepository();
+const cartService = new InMemoryCartService();
+const addToCartRepository = new CartServiceToAddToCartRepository(cartService);
+const listProductsRepository = new CartServiceToListProductsRepository(cartService);
 
 const addToCartUseCase = new AddToCartUseCase(addToCartRepository);
 addToCartUseCase.addEffectHandler(new ReduxAddToCartEffectHandler(store.dispatch));
