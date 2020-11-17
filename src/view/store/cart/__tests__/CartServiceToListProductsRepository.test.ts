@@ -1,15 +1,15 @@
 import { Product } from '../../../../domain/Product';
 import { CartService } from '../../../../services/cartService';
 import InMemoryCartService from '../../../../services/inMemoryCartService';
-import ListProductsInMemoryRepository from '../ListProductsInMemoryRepository';
+import CartServiceToListProductsRepository from '../CartServiceToListProductsRepository';
 
-describe('ListProductsRepository', () => {
-  let listProductsRepository: ListProductsInMemoryRepository;
+describe('CartServiceToListProductsRepository', () => {
+  let listProductsRepository: CartServiceToListProductsRepository;
   let cartService: CartService;
 
   beforeEach(() => {
     cartService = new InMemoryCartService();
-    listProductsRepository = new ListProductsInMemoryRepository(cartService);
+    listProductsRepository = new CartServiceToListProductsRepository(cartService);
   });
 
   it('creates', () => {

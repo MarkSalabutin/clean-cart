@@ -1,13 +1,9 @@
 import { Product } from "../../../domain/Product";
 import { CartService } from '../../../services/cartService';
-import { AddToCartRepository } from "../../../useCases/addToCart";
+import { ListProductsRepository } from "../../../useCases/listProducts";
 
-export default class AddToCartInMemoryRepository implements AddToCartRepository {
+export default class CartServiceToListProductsRepository implements ListProductsRepository {
   constructor(private readonly cartService: CartService) {}
-
-  addProducts(products: Product[]): void {
-    this.cartService.addProducts(products);
-  }
 
   getProducts(): Product[] {
     return this.cartService.getProducts();
